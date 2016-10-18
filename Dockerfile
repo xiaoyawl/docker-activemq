@@ -6,18 +6,32 @@ ARG VERSION=5.13.4
 
 LABEL name="ActiveMQ" version=$VERSION
 
-ENV INSTALL_DIR=/opt/apache-activemq \
-        TEMP_DIR=/tmp/apache-activemq
+ENV INSTALL_DIR=/opt/activemq \
+	TEMP_DIR=/tmp/activemq \
+	ACTIVEMQ_TCP=61616 \
+	ACTIVEMQ_AMQP=5672 \
+	ACTIVEMQ_STOMP=61613 \
+	ACTIVEMQ_MQTT=1883 \
+	ACTIVEMQ_WS=61614 \
+	ACTIVEMQ_UI=8161
 
 RUN set -x && \
-        apk --update --no-cache upgrade && \
-        apk add --no-cache curl bash tar && \
-        mkdir -p ${INSTALL_DIR} ${TEMP_DIR} && \
-        curl -Lk "$MIRROR/activemq/${VERSION}/apache-activemq-${VERSION}-bin.tar.gz" | tar xz -C /opt/apache-activemq --strip-components=1 && \
-        apk del curl && \
-        rm -rf /var/cache/apk/*
+	DOWNLOAD=${DOWNLOAD:-$MIRROR/activemq/${VERSION}/apache-activemq-${VERSION}-bin.tar.gz} && \
+	apk --update --no-cache upgrade && \
+	apk add --no-cache curl bash tar iproute2 && \
+	addgroup -g 400 -S activemq && \
+	adduser -S -H -G activemq -u 400 -h $INSTALL_DIR -g 'ActiveMQ' activemq && \
+	mkdir -p ${INSTALL_DIR} ${TEMP_DIR} && \
+	curl -Lk "$DOWNLOAD" | tar xz -C ${INSTALL_DIR} --strip-components=1 && \
+	chown -R activemq:activemq $INSTALL_DIR && \
+	apk del curl iptables && \
+	rm -rf /var/cache/apk/*
 
-# expose below ports
-EXPOSE 1883 5672 8161 61613 61614 61616
+USER activemq
+ENV PATH=$INSTALL_DIR/bin:$PATH \
+	TERM=linux
 
-CMD ["/opt/apache-activemq/bin/activemq", "console"]
+WORKDIR $INSTALL_DIR
+EXPOSE $ACTIVEMQ_TCP $ACTIVEMQ_AMQP $ACTIVEMQ_STOMP $ACTIVEMQ_MQTT $ACTIVEMQ_WS $ACTIVEMQ_UI
+
+#CMD ["activemq", "console"]
