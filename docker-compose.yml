@@ -1,0 +1,22 @@
+version: '2'
+services:
+  activemq:
+    build:
+      context: https://github.com/xiaoyawl/docker-activemq.git
+    restart: always
+    privileged: true
+    container_name: activemq
+    image: benyoo/activemq:5.13.4
+    network_mode: "host"
+    ports:
+    - "1883:1883"
+    - "5672:5672"
+    - "8161:8161"
+    - "61613-61614:61613-61614"
+    - "61616:61616"
+    environment:
+    - ACTIVEMQ_OPTS_MEMORY=-Xms512M -Xmx2G
+    - DEBUG=true
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /data/activemq-data:/opt/activemq/data
