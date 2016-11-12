@@ -1,5 +1,5 @@
 #FROM benyoo/alpine:openjdk-8-jre-20161012
-FROM reg.dtops.cc/benyoo/alpine:jdk-8-20161012
+FROM benyoo/alpine:jdk-8-20161012
 MAINTAINER from www.dwhd.org by lookback (mondeolove@gmail.com)
 
 ARG MIRROR=http://mirrors.dtops.cc/apache
