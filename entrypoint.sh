@@ -12,7 +12,7 @@ set -e
 ACTIVEMQ_ENV=/opt/activemq/bin/env
 
 if [ "$1" = 'activemq' -a "$(id -u)" = '0' ]; then
-	if [[ ! -d /opt/activemq/data ]] && [[ "`ls -ld data|awk '{print $3,$4}'`" == "activemq activemq" ]];then
+	if [[ -d /opt/activemq/data ]] || [[ "`ls -ld data|awk '{print $3,$4}'`" == "activemq activemq" ]];then
 		{ chown -R activemq.activemq data; } || { echo >&2 "Can't change 'data' directory permissions" && exit 1; }
 	fi
 	exec su-exec activemq "$0" "$@"

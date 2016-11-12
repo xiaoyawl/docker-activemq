@@ -2,8 +2,8 @@
 FROM reg.dtops.cc/benyoo/alpine:jdk-8-20161012
 MAINTAINER from www.dwhd.org by lookback (mondeolove@gmail.com)
 
-ARG MIRROR=http://apache.mirrors.pair.com
-ARG VERSION=5.13.4
+ARG MIRROR=http://mirrors.dtops.cc/apache
+ARG VERSION=5.14.1
 
 LABEL name="ActiveMQ" version=$VERSION
 
@@ -17,8 +17,7 @@ ENV INSTALL_DIR=/opt/activemq \
 	ACTIVEMQ_UI=8161
 
 RUN set -x && \
-	LOCAL_MIRRORS_HTTP_CODE=$(curl -LI -m 10 -o /dev/null -sw %{http_code} mirrors.ds.com/alpine) && \
-	if [ "${LOCAL_MIRRORS_HTTP_CODE}" == "200" ]; then \
+	if [[ "$(curl -LI -m 10 -o /dev/null -sw %{http_code} mirrors.ds.com/alpine)" == "200" ]]; then \
 		echo -e 'http://mirrors.ds.com/alpine/v3.4/main\nhttp://mirrors.ds.com/alpine/v3.4/community' > /etc/apk/repositories; else \
 		echo -e 'http://dl-cdn.alpinelinux.org/alpine/v3.4/main\nhttp://dl-cdn.alpinelinux.org/alpine/v3.4/community' > /etc/apk/repositories; fi && \
 	DOWNLOAD=${DOWNLOAD:-$MIRROR/activemq/${VERSION}/apache-activemq-${VERSION}-bin.tar.gz} && \
