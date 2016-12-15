@@ -3,11 +3,11 @@ FROM benyoo/alpine:jdk-8-20161012
 MAINTAINER from www.dwhd.org by lookback (mondeolove@gmail.com)
 
 ARG MIRROR=http://mirrors.dtops.cc/apache
-ARG VERSION=5.14.1
+ARG VERSION=5.14.2
 
 LABEL name="ActiveMQ" version=$VERSION
 
-ENV INSTALL_DIR=/opt/activemq \
+ENV INSTALL_DIR=/data/activemq \
 	TEMP_DIR=/tmp/activemq \
 	ACTIVEMQ_TCP=61616 \
 	ACTIVEMQ_AMQP=5672 \
