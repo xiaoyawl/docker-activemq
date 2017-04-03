@@ -42,13 +42,23 @@ docker run -p 61616:61616 -p 8161:8161 -v /opt/activemq/conf:/opt/activemq/conf 
 
 ```bash
 curl -Lks 'https://github.com/xiaoyawl/docker-activemq/raw/master/docker-compose-zk-mq.yml' > /data/docker-compose.yml
+curl -Lks 'https://github.com/xiaoyawl/docker-activemq/raw/master/activemq.xml' > /etc/activemq/activemq.xml
 mkdir -p /etc/{activemq,zookeeper}
-#sed -ri 's/(MYID=).*/\11/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node1 setting
-#sed -ri 's/(MYID=).*/\12/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node2 setting
-#sed -ri 's/(MYID=).*/\13/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node3 setting
-#sed -ri 's/(MYID=).*/\14/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node4 setting
-#sed -ri 's/(MYID=).*/\15/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node5 setting
-curl -Lks 'https://github.com/xiaoyawl/docker-activemq/raw/master/docker-compose-zk-mq.yml' > /etc/activemq/activemq.xml
+# sed -ri 's/(MYID=).*/\11/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node1 setting
+# sed -ri 's/(hostname=").*/\1Node1"/;s/(zkAddress=").*/\1Node1:2181,Node2:2181,Node3:2181,Node4:2181,Node5:2181"/' /etc/activemq/activemq.xml
+
+# sed -ri 's/(MYID=).*/\12/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node2 setting
+# sed -ri 's/(hostname=").*/\1Node1"/;s/(zkAddress=").*/\1Node1:2181,Node2:2181,Node3:2181,Node4:2181,Node5:2181"/' /etc/activemq/activemq.xml
+
+# sed -ri 's/(MYID=).*/\13/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node3 setting
+# sed -ri 's/(hostname=").*/\1Node1"/;s/(zkAddress=").*/\1Node1:2181,Node2:2181,Node3:2181,Node4:2181,Node5:2181"/' /etc/activemq/activemq.xml
+
+# sed -ri 's/(MYID=).*/\14/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node4 setting
+# sed -r 's/(hostname=").*/\1Node1"/;s/(zkAddress=").*/\1Node1:2181,Node2:2181,Node3:2181,Node4:2181,Node5:2181"/' /etc/activemq/activemq.xml
+
+# sed -ri 's/(MYID=).*/\15/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node5 setting
+# sed -ri 's/(hostname=").*/\1Node1"/;s/(zkAddress=").*/\1Node1:2181,Node2:2181,Node3:2181,Node4:2181,Node5:2181"/' /etc/activemq/activemq.xml
+
 #vim /etc/activemq/activemq.xml
 docker-compose -f /data/docker-compose.yml up -d
 ```
