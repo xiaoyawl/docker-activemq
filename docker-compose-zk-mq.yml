@@ -1,0 +1,35 @@
+version: '2'
+services:
+  zookeeper:
+    restart: always
+    privileged: true
+    container_name: zookeeper
+    image: benyoo/zookeeper:3.4.9
+    network_mode: "host"
+    environment:
+    - MYID=1
+    - SERVERS=192.168.0.121,192.168.0.122,192.168.0.123,192.168.0.124,192.168.0.125
+    - DATA_LOG_DIR=/tmp/zookeeper
+    volumes:
+    #- /usr/share/zoneinfo/Etc/GMT+4:/etc/localtime:ro
+    - /etc/zookeeper/tmp:/tmp/zookeeper
+
+  activemq:
+    restart: always
+    privileged: true
+    container_name: activemq
+    image: benyoo/activemq:5.14.1
+    network_mode: "host"
+    ports:
+    - "1883:1883"
+    - "5672:5672"
+    - "8161:8161"
+    - "61613-61614:61613-61614"
+    - "61616:61616"
+    environment:
+    - ACTIVEMQ_OPTS_MEMORY=-Xms512M -Xmx2G
+    - DEBUG=true
+    volumes:
+    #- /usr/share/zoneinfo/Etc/GMT+4:/etc/localtime:ro
+    - /data/activemq-data:/opt/activemq/data
+    - /etc/activemq/activemq.xml:/opt/activemq/conf/activemq.xml

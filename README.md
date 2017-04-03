@@ -1,6 +1,4 @@
-
-docker-activemq
-===============
+#docker-ActiveMQ
 
 [![](https://images.microbadger.com/badges/image/benyoo/activemq.svg)](https://microbadger.com/images/benyoo/activemq "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/benyoo/activemq.svg)](https://microbadger.com/images/benyoo/activemq "Get your own version badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/benyoo/activemq.svg?maxAge=2592000)](https://hub.docker.com/r/benyoo/activemq/) 
 
@@ -39,3 +37,19 @@ As an alternative you can just mount your persistent config and data directories
 mkdir -p /var/activemq/data && chown -R 400:400 /var/activemq/data
 docker run -p 61616:61616 -p 8161:8161 -v /opt/activemq/conf:/opt/activemq/conf -v /var/activemq/data:/var/activemq/data benyoo/activemq
 ```
+
+##Zookeeper + ActiveMQ
+
+```bash
+curl -Lks 'https://github.com/xiaoyawl/docker-activemq/raw/master/docker-compose-zk-mq.yml' > /data/docker-compose.yml
+mkdir -p /etc/{activemq,zookeeper}
+#sed -ri 's/(MYID=).*/\11/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node1 setting
+#sed -ri 's/(MYID=).*/\12/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node2 setting
+#sed -ri 's/(MYID=).*/\13/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node3 setting
+#sed -ri 's/(MYID=).*/\14/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node4 setting
+#sed -ri 's/(MYID=).*/\15/;s/(SERVERS=).*/\1Node1,Node2,Node3,Node4,Node5/' /data/docker-compose.yml #Node5 setting
+curl -Lks 'https://github.com/xiaoyawl/docker-activemq/raw/master/docker-compose-zk-mq.yml' > /etc/activemq/activemq.xml
+#vim /etc/activemq/activemq.xml
+docker-compose -f /data/docker-compose.yml up -d
+```
+
