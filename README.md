@@ -1,4 +1,4 @@
-#docker-ActiveMQ
+# docker-ActiveMQ
 
 [![](https://images.microbadger.com/badges/image/benyoo/activemq.svg)](https://microbadger.com/images/benyoo/activemq "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/benyoo/activemq.svg)](https://microbadger.com/images/benyoo/activemq "Get your own version badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/benyoo/activemq.svg?maxAge=2592000)](https://hub.docker.com/r/benyoo/activemq/) 
 
@@ -38,7 +38,7 @@ mkdir -p /var/activemq/data && chown -R 400:400 /var/activemq/data
 docker run -p 61616:61616 -p 8161:8161 -v /opt/activemq/conf:/opt/activemq/conf -v /var/activemq/data:/var/activemq/data benyoo/activemq
 ```
 
-##Zookeeper + ActiveMQ
+## Zookeeper + ActiveMQ
 
 ```bash
 curl -Lks 'https://github.com/xiaoyawl/docker-activemq/raw/master/docker-compose-zk-mq.yml' > /data/docker-compose.yml
